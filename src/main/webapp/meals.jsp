@@ -9,6 +9,7 @@
 <h3><a href="index.html">Home</a></h3>
 <hr>
 <h2>Meals</h2>
+<a href="?action=add">Добавить</a>
 <table border="3px">
     <tr>
         <td>Date</td>
@@ -21,6 +22,8 @@
             <td>${TimeUtil.format(meal.dateTime)}</td>
             <td>${meal.description}</td>
             <td>${meal.calories}</td>
+            <td><a href="?action=update&id=${meal.id}">Update</a></td>
+            <td><a href="?action=delete&id=${meal.id}">Delete</a></td>
         </tr>
     </c:forEach>
 </table>
