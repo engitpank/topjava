@@ -16,7 +16,7 @@
         Description: <input type="text" name="description" value="${meal.description}">
     </label>
     <label>
-        Calories: <input type="text" name="calories" value="${meal.calories}">
+        Calories: <input type="number" name="calories" value="${meal.calories}">
     </label>
     <label>
         Date: <input type="datetime-local" name="date" value="${meal.dateTime}">

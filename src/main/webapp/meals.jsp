@@ -18,7 +18,7 @@
     </tr>
     <jsp:useBean id="meals" scope="request" type="java.util.List"/>
     <c:forEach var="meal" items="${meals}">
-        <tr style="color: ${meal.excess ? "red" : ""}">
+        <tr style="color: ${meal.excess ? "red" : "green"}">
             <td>${TimeUtil.format(meal.dateTime)}</td>
             <td>${meal.description}</td>
             <td>${meal.calories}</td>

@@ -3,7 +3,7 @@ package ru.javawebinar.topjava.web;
 import org.slf4j.Logger;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.MealTo;
-import ru.javawebinar.topjava.storage.MapMealStorage;
+import ru.javawebinar.topjava.storage.MemoryMealStorage;
 import ru.javawebinar.topjava.storage.Storage;
 import ru.javawebinar.topjava.util.MealsUtil;
 
@@ -26,8 +26,7 @@ public class MealServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        storage = new MapMealStorage();
-        MealsUtil.getTemplateList().forEach(m -> storage.save(m));
+        storage = new MemoryMealStorage();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws javax.servlet.ServletException, IOException {
@@ -36,17 +35,15 @@ public class MealServlet extends HttpServlet {
         LocalDateTime date = LocalDateTime.parse(request.getParameter("date"));
         String desc = request.getParameter("description");
         int calories = Integer.parseInt(request.getParameter("calories"));
-        Meal meal;
-        if (id == null || id.length() == 0 || Integer.parseInt(id) == Meal.EMPTY_MEAL.getId()) {
-            meal = new Meal(date, desc, calories);
+        if (id == null || id.length() == 0) {
+            log.debug("save meal");
+            Meal meal = new Meal(date, desc, calories);
             storage.save(meal);
         } else {
-            meal = storage.get(Integer.parseInt(id));
-            meal.setDescription(desc);
-            meal.setCalories(calories);
-            meal.setDateTime(date);
-            storage.update(meal);
+            log.debug("update meal");
+            storage.update(new Meal(Integer.parseInt(id), date, desc, calories));
         }
+        log.debug("redirect to /meals");
         response.sendRedirect("meals");
     }
 
@@ -54,31 +51,27 @@ public class MealServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.debug("forward to meals.jsp");
         String action = request.getParameter("action");
-        if (action == null) {
-            List<MealTo> mealToList = MealsUtil.filteredByStreams(storage.getAll(), LocalTime.MIN, LocalTime.MAX, 2000);
-            request.setAttribute("meals", mealToList);
-            request.getRequestDispatcher("meals.jsp").forward(request, response);
-            return;
-        }
-        String receivedId = request.getParameter("id");
-        int mealId = -1;
-        if (receivedId != null) {
-            mealId = Integer.parseInt(receivedId);
-        }
         Meal meal;
-        switch (action) {
-            case "delete":
-                storage.delete(mealId);
-                response.sendRedirect("meals");
-                return;
+        switch (action == null ? "all" : action) {
             case "add":
+                log.debug("add-action");
                 meal = Meal.EMPTY_MEAL;
                 break;
             case "update":
-                meal = storage.get(mealId);
+                log.debug("update-action");
+                meal = storage.get(Integer.parseInt(request.getParameter("id")));
                 break;
+            case "delete":
+                log.debug("delete-action");
+                storage.delete(Integer.parseInt(request.getParameter("id")));
+                response.sendRedirect("meals");
+                return;
             default:
-                throw new IllegalArgumentException("Type " + action + " is illegal");
+                log.debug("get all meals");
+                List<MealTo> mealToList = MealsUtil.filteredByStreams(storage.getAll(), LocalTime.MIN, LocalTime.MAX, 2000);
+                request.setAttribute("meals", mealToList);
+                request.getRequestDispatcher("meals.jsp").forward(request, response);
+                return;
         }
         request.setAttribute("meal", meal);
         request.getRequestDispatcher("/editMeal.jsp").forward(request, response);
