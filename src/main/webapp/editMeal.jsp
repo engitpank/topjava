@@ -8,9 +8,10 @@
 <body>
 <h3><a href="index.html">Home</a></h3>
 <hr>
-<h2>Edit meal</h2>
+<hr>
+<jsp:useBean id="meal" scope="request" type="ru.javawebinar.topjava.model.Meal"/>
+<h2>${meal.id == null ? "Add " : "Edit "} Meals</h2>
 <form method="post" action="meals">
-    <jsp:useBean id="meal" scope="request" type="ru.javawebinar.topjava.model.Meal"/>
     <input type="hidden" name="id" value="${meal.id}">
     <label>
         Description: <input type="text" name="description" value="${meal.description}">
