@@ -10,7 +10,7 @@
 <hr>
 <hr>
 <jsp:useBean id="meal" scope="request" type="ru.javawebinar.topjava.model.Meal"/>
-<h2>${meal.id == null ? "Add " : "Edit "} Meals</h2>
+<h2><%= meal.isNew() ? "Add " : "Edit "%> Meals</h2>
 <form method="post" action="meals">
     <input type="hidden" name="id" value="${meal.id}">
     <label>
@@ -20,7 +20,7 @@
         Calories: <input type="number" name="calories" value="${meal.calories}">
     </label>
     <label>
-        Date: <input type="datetime-local" name="date" value="${meal.dateTime}">
+        Date: <input type="datetime-local" step="60" name="date" value="${meal.dateTime}">
     </label>
     <br>
     <button type="submit">Отправить</button>

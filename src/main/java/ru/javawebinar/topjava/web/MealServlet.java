@@ -35,13 +35,14 @@ public class MealServlet extends HttpServlet {
         LocalDateTime date = LocalDateTime.parse(request.getParameter("date"));
         String desc = request.getParameter("description");
         int calories = Integer.parseInt(request.getParameter("calories"));
+        Meal meal = new Meal(date, desc, calories);
         if (id == null || id.length() == 0) {
-            log.debug("save meal");
-            Meal meal = new Meal(date, desc, calories);
-            storage.save(meal);
+            log.debug("create meal");
+            storage.create(meal);
         } else {
             log.debug("update meal");
-            storage.update(new Meal(Integer.parseInt(id), date, desc, calories));
+            meal.setId(Integer.valueOf(id));
+            storage.update(meal);
         }
         log.debug("redirect to /meals");
         response.sendRedirect("meals");

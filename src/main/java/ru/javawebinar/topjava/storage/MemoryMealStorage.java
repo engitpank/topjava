@@ -25,20 +25,19 @@ public class MemoryMealStorage implements Storage<Meal> {
                 new Meal(LocalDateTime.of(2020, Month.JANUARY, 31, 13, 0), "Обед", 500),
                 new Meal(LocalDateTime.of(2020, Month.JANUARY, 31, 20, 0), "Ужин", 410)
         );
-        templateMeals.forEach(this::save);
+        templateMeals.forEach(this::create);
     }
 
     @Override
-    public Meal save(Meal meal) {
-        if (meal.getId() == null) {
-            meal.setId(counter.getAndIncrement());
-        }
-        return storage.put(meal.getId(), meal);
+    public Meal create(Meal meal) {
+        meal.setId(counter.getAndIncrement());
+        storage.put(meal.getId(), meal);
+        return meal;
     }
 
     @Override
     public Meal update(Meal meal) {
-        return storage.replace(meal.getId(), meal);
+        return storage.computeIfPresent(meal.getId(), (id, m) -> meal);
     }
 
     @Override
