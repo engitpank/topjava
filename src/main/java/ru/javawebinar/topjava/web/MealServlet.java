@@ -56,7 +56,7 @@ public class MealServlet extends HttpServlet {
         switch (action == null ? "all" : action) {
             case "add":
                 log.debug("add-action");
-                meal = Meal.EMPTY_MEAL;
+                meal = MealsUtil.EMPTY_MEAL;
                 break;
             case "update":
                 log.debug("update-action");

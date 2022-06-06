@@ -3,10 +3,8 @@ package ru.javawebinar.topjava.model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
 
 public class Meal {
-    public static final Meal EMPTY_MEAL = new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 0);
     private Integer id;
     private final LocalDateTime dateTime;
     private final String description;
@@ -57,5 +55,4 @@ public class Meal {
     public boolean isNew() {
         return id == null;
     }
-
 }

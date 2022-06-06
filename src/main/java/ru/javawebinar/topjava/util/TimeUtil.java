@@ -3,7 +3,6 @@ package ru.javawebinar.topjava.util;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 
 public class TimeUtil {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -13,7 +12,7 @@ public class TimeUtil {
     }
 
     public static String format(LocalDateTime ldt) {
-        return ldt.truncatedTo(ChronoUnit.MINUTES).format(FORMATTER);
+        return ldt.format(FORMATTER);
     }
 
     public static LocalDateTime parse(String date) {
