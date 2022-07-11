@@ -12,36 +12,39 @@ import static ru.javawebinar.topjava.model.AbstractBaseEntity.START_SEQ;
 
 public class MealTestData {
 
-    public static final int USER_ID = UserTestData.USER_ID;
-    public static final int ADMIN_ID = UserTestData.ADMIN_ID;
+    public static final LocalDate DATE_1 = LocalDate.of(2022, 7, 5);
+    public static final LocalDate DATE_2 = LocalDate.of(2022, 7, 6);
+    public static final LocalDate DATE_3 = LocalDate.of(2022, 7, 7);
+    public static final LocalTime BREAKFAST_TIME = LocalTime.of(8, 0);
+    public static final LocalTime LUNCH_TIME = LocalTime.of(12, 0);
+    public static final LocalTime DINNER_TIME = LocalTime.of(21, 0);
 
-    public static final LocalDate YESTERDAY = LocalDate.of(2022, 7, 5);
-    public static final LocalDate TODAY = LocalDate.of(2022, 7, 6);
-    public static final LocalDate TOMORROW = LocalDate.of(2022, 7, 7);
-    public static final LocalDateTime BREAKFAST_DT = LocalDateTime.of(TODAY, LocalTime.of(8, 0));
-    public static final LocalDateTime LUNCH_DT = LocalDateTime.of(TODAY, LocalTime.of(12, 0));
-    public static final LocalDateTime DINNER_DT = LocalDateTime.of(TODAY, LocalTime.of(21, 0));
+    public static final int USER_MEAL_ID_1 = START_SEQ + 3;
+    public static final int USER_MEAL_ID_2 = START_SEQ + 4;
+    public static final int USER_MEAL_ID_3 = START_SEQ + 5;
 
-    public static final int USER_BREAKFAST_ID = START_SEQ + 4;
-    public static final int USER_LUNCH_ID = START_SEQ + 5;
-    public static final int USER_DINNER_ID = START_SEQ + 6;
+    public static final int NOT_EXIST_MEAL_ID = 10;
 
-    public static final Meal USER_BREAKFAST = new Meal(USER_BREAKFAST_ID, BREAKFAST_DT, "Завтрак", 500);
-    public static final Meal USER_LUNCH = new Meal(USER_LUNCH_ID, LUNCH_DT, "Обед", 700);
-    public static final Meal USER_DINNER = new Meal(USER_DINNER_ID, DINNER_DT, "Ужин", 800);
+    public static final Meal userMeal1 = new Meal(USER_MEAL_ID_1, LocalDateTime.of(DATE_2, BREAKFAST_TIME), "Завтрак",
+            500);
+    public static final Meal userMeal2 = new Meal(USER_MEAL_ID_2, LocalDateTime.of(DATE_2, LUNCH_TIME), "Обед", 700);
+    public static final Meal userMeal3 = new Meal(USER_MEAL_ID_3, LocalDateTime.of(DATE_2, DINNER_TIME), "Ужин", 800);
 
-    public static final int ADMIN_BREAKFAST_ID = START_SEQ + 7;
-    public static final int ADMIN_LUNCH_ID = START_SEQ + 8;
-    public static final int ADMIN_DINNER_ID = START_SEQ + 9;
-    public static final int ADMIN_TOMORROW_BREAKFAST_ID = START_SEQ + 10;
-    public static final int ADMIN_YESTERDAY_LUNCH_ID = START_SEQ + 11;
+    public static final int ADMIN_MEAL_ID_1 = START_SEQ + 6;
+    public static final int ADMIN_MEAL_ID_2 = START_SEQ + 7;
+    public static final int ADMIN_MEAL_ID_3 = START_SEQ + 8;
+    public static final int ADMIN_MEAL_ID_4 = START_SEQ + 9;
+    public static final int ADMIN_MEAL_ID_5 = START_SEQ + 10;
 
+    public static final Meal adminMeal1 = new Meal(ADMIN_MEAL_ID_1, LocalDateTime.of(DATE_1, LUNCH_TIME), "Обед " +
+            "предыдущего дня", 700);
+    public static final Meal adminMeal2 = new Meal(ADMIN_MEAL_ID_2, LocalDateTime.of(DATE_2, BREAKFAST_TIME),
+            "Завтрак", 500);
+    public static final Meal adminMeal3 = new Meal(ADMIN_MEAL_ID_3, LocalDateTime.of(DATE_2, LUNCH_TIME), "Обед", 700);
+    public static final Meal adminMeal4 = new Meal(ADMIN_MEAL_ID_4, LocalDateTime.of(DATE_2, DINNER_TIME), "Ужин", 800);
 
-    public static final Meal ADMIN_BREAKFAST = new Meal(ADMIN_BREAKFAST_ID, BREAKFAST_DT, "Завтрак", 500);
-    public static final Meal ADMIN_LUNCH = new Meal(ADMIN_LUNCH_ID, LUNCH_DT, "Обед", 700);
-    public static final Meal ADMIN_DINNER = new Meal(ADMIN_DINNER_ID, DINNER_DT, "Ужин", 800);
-    public static final Meal ADMIN_YESTERDAY_LUNCH = new Meal(ADMIN_YESTERDAY_LUNCH_ID, LocalDateTime.of(YESTERDAY, LocalTime.of(13, 0)), "Обед предыдущего дня", 700);
-    public static final Meal ADMIN_TOMORROW_BREAKFAST = new Meal(ADMIN_TOMORROW_BREAKFAST_ID, LocalDateTime.of(TOMORROW, LocalTime.of(8, 0)), "Завтрак на след. день", 500);
+    public static final Meal adminMeal5 = new Meal(ADMIN_MEAL_ID_5, LocalDateTime.of(DATE_3, BREAKFAST_TIME),
+            "Завтрак на след. день", 500);
 
     public static Meal getNew() {
         return new Meal(LocalDateTime.of(2022, 7, 9, 12, 0), "Новая еда", 155);
