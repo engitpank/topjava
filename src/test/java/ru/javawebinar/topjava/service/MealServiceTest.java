@@ -1,7 +1,13 @@
 package ru.javawebinar.topjava.service;
 
+import org.junit.AfterClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.Stopwatch;
+import org.junit.rules.TestRule;
+import org.junit.runner.Description;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
@@ -13,8 +19,10 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertThrows;
+import static org.slf4j.LoggerFactory.getLogger;
 import static ru.javawebinar.topjava.MealTestData.*;
 import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
 import static ru.javawebinar.topjava.UserTestData.USER_ID;
@@ -26,6 +34,25 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 @RunWith(SpringRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class MealServiceTest {
+
+    private static final Logger log = getLogger(MealServiceTest.class);
+    private static final StringBuilder results = new StringBuilder();
+    @Rule()
+    public final TestRule watcher = new Stopwatch() {
+        @Override
+        protected void finished(long nanos, Description description) {
+            long millis = TimeUnit.NANOSECONDS.toMillis(nanos);
+            log.info("\n\n###Time: " + millis + "ms.");
+            results.append("\n### ")
+                    .append(description.getClassName())
+                    .append(" ==> Total Time: ").append(millis).append("ms.");
+        }
+    };
+
+    @AfterClass
+    public static void printTotalResults() {
+        log.info("\n\nTotal Results: " + results);
+    }
 
     @Autowired
     private MealService service;
@@ -108,4 +135,5 @@ public class MealServiceTest {
     public void getBetweenWithNullDates() {
         MEAL_MATCHER.assertMatch(service.getBetweenInclusive(null, null, USER_ID), meals);
     }
+
 }
