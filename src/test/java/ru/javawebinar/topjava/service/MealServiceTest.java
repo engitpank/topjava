@@ -37,21 +37,19 @@ public class MealServiceTest {
 
     private static final Logger log = getLogger(MealServiceTest.class);
     private static final StringBuilder results = new StringBuilder();
-    @Rule()
+    @Rule
     public final TestRule watcher = new Stopwatch() {
         @Override
         protected void finished(long nanos, Description description) {
-            long millis = TimeUnit.NANOSECONDS.toMillis(nanos);
-            log.info("\n\n###Time: " + millis + "ms.");
-            results.append("\n### ")
-                    .append(description.getClassName())
-                    .append(" ==> Total Time: ").append(millis).append("ms.");
+            String result = String.format("\n%-30s  %4d ms", description.getMethodName(), TimeUnit.NANOSECONDS.toMillis(nanos));
+            log.info(result);
+            results.append(result);
         }
     };
 
     @AfterClass
     public static void printTotalResults() {
-        log.info("\n\nTotal Results: " + results);
+        log.info("\nTest name                Execution time" + results);
     }
 
     @Autowired
@@ -135,5 +133,4 @@ public class MealServiceTest {
     public void getBetweenWithNullDates() {
         MEAL_MATCHER.assertMatch(service.getBetweenInclusive(null, null, USER_ID), meals);
     }
-
 }
