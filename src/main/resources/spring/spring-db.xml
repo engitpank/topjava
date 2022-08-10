@@ -28,7 +28,7 @@
               p:password="${database.password}"/>
     </beans>
 
-    <beans profile="postgres">
+    <beans profile="postgres, no-polling-postgres">
         <!--
             For postgres driver logging
             It uses java.util.logging and logged via jul-to-slf4j bridge
@@ -39,9 +39,18 @@
         </bean>
 
         <context:property-placeholder location="classpath:db/postgres.properties" system-properties-mode="OVERRIDE"/>
-
+    </beans>
+    <beans profile="postgres">
         <bean id="dataSource"
               class="org.apache.tomcat.jdbc.pool.DataSource"
+              p:driverClassName="org.postgresql.Driver"
+              p:url="${database.url}"
+              p:username="${database.username}"
+              p:password="${database.password}"/>
+    </beans>
+    <beans profile="no-polling-postgres">
+        <bean id="dataSource"
+              class="org.springframework.jdbc.datasource.DriverManagerDataSource"
               p:driverClassName="org.postgresql.Driver"
               p:url="${database.url}"
               p:username="${database.username}"

@@ -12,6 +12,7 @@ public class Profiles {
 
     public static final String
             POSTGRES_DB = "postgres",
+            POSTGRES_DB_NO_POLLING = "no-polling-postgres",
             HSQL_DB = "hsqldb";
 
     //  Get DB profile depending on DB driver in classpath
