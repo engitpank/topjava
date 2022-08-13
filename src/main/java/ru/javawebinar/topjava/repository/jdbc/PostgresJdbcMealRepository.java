@@ -7,10 +7,13 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 
-@Profile({"postgres", "no-polling-postgres"})
+import static ru.javawebinar.topjava.Profiles.POSTGRES_DB;
+import static ru.javawebinar.topjava.Profiles.POSTGRES_DB_NO_POLLING;
+
+@Profile({POSTGRES_DB, POSTGRES_DB_NO_POLLING})
 @Repository
-public class JdbcMealRepository extends AbstractJdbcMealRepository<LocalDateTime> {
-    public JdbcMealRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+public class PostgresJdbcMealRepository extends AbstractJdbcMealRepository<LocalDateTime> {
+    public PostgresJdbcMealRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         super(jdbcTemplate, namedParameterJdbcTemplate);
     }
 
